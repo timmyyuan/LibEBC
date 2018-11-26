@@ -1,8 +1,10 @@
 include(CheckLibraryExists)
 
 # LibXml2 Dependency
-find_package(LibXml2 REQUIRED)
-include_directories(${LIBXML2_INCLUDE_DIR})
+find_package(PkgConfig)
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0 IMPORTED_TARGET)
+
+include_directories(${LIBXML2_INCLUDE_DIRS})
 
 # LLVM Dependency
 message(STATUS "LLVM Hint: ${LLVM_HINT}")

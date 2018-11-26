@@ -1,6 +1,8 @@
 # LibXml2 Dependency
-find_package(LibXml2 REQUIRED)
-include_directories(${LIBXML2_INCLUDE_DIR})
+find_package(PkgConfig)
+pkg_check_modules(LIBXML2 REQUIRED libxml-2.0 IMPORTED_TARGET)
+
+include_directories(${LIBXML2_INCLUDE_DIRS})
 
 # Test source files
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
