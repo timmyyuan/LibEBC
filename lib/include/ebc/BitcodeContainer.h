@@ -55,6 +55,13 @@ class BitcodeContainer {
   /// @return A vector of bitcode files.
   virtual std::vector<std::unique_ptr<EmbeddedFile>> GetEmbeddedFiles() const;
 
+  /// Extract individual bitcode files from this container and return a vector
+  /// of pairs of buffers. This operation can be expensive as it decompresses each
+  /// bitcode file and does everything in-memory.
+  ///
+  /// @return A vector of pairs of raw buffers and their sizes
+  virtual std::vector<std::unique_ptr<EmbeddedFile>> GetRawEmbeddedFiles() const;
+
   const std::string& GetPrefix() const;
   void SetPrefix(std::string prefix);
 

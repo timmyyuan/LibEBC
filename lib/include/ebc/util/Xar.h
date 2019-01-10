@@ -13,6 +13,7 @@ namespace xar {
 ///
 /// @return True if and only if the given file is a xar archive. Always false if build without xar support.
 bool IsXarFile(std::string file);
+bool IsXarFile(uint32_t magic);
 
 /// Write the ToC (Table of Content) of the given xar archive to disk.
 ///
@@ -24,10 +25,17 @@ bool WriteTOC(std::string xarFile, std::string tocFile);
 
 /// Extract the files in the archive.
 ///
-/// @param file Patht to the xar xarchive.
+/// @param file Path to the xar archive.
 ///
 /// @return A map with the original filename and a generated unique (UUID) filename.
 std::map<std::string, std::string> Extract(std::string file, std::string prefix = "");
+
+/// Extract the files in the archive in memory.
+///
+/// @param file Path to the xar archive.
+///
+/// @return A map with the original filename and a generated unique (UUID) filename.
+std::map<std::string, std::pair<char *, size_t>> ExtractInMemory(std::string file);
 
 /// Returns true if LibEBC is compiled with xar support.
 ///

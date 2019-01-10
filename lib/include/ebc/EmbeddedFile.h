@@ -21,9 +21,11 @@ class EmbeddedFile {
   };
 
   EmbeddedFile(std::string name);
-  virtual ~EmbeddedFile() = default;
+  EmbeddedFile(char *buffer, size_t bufferSize);
+  virtual ~EmbeddedFile();
 
   std::string GetName() const;
+  std::pair<const char *, size_t> GetRawBuffer() const;
 
   /// Get all commands passed to the compiler to create this embedded file.
   ///
@@ -45,8 +47,10 @@ class EmbeddedFile {
 
  protected:
   EmbeddedFile(std::string name, Type type);
-
+  EmbeddedFile(char *buffer, size_t, Type type);
  private:
+  char *_buffer;
+  size_t _bufferSize;
   std::string _name;
   Type _type;
   std::vector<std::string> _commands;

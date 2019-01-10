@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <streambuf>
+#include <ebc/BitcodeContainer.h>
 
 namespace ebc {
 
@@ -90,6 +91,32 @@ std::vector<std::unique_ptr<EmbeddedFile>> BitcodeContainer::GetEmbeddedFiles() 
     util::bitcode::WriteToFile(_data + begin, size, fileName);
 
     auto embeddedFile = EmbeddedFileFactory::CreateEmbeddedFile(fileName);
+    embeddedFile->SetCommands(_commands, EmbeddedFile::CommandSource::Clang);
+    files.push_back(std::move(embeddedFile));
+  }
+
+  return files;
+}
+
+std::vector<std::unique_ptr<EmbeddedFile>> BitcodeContainer::GetRawEmbeddedFiles() const {
+// Magic number + wrapper version is 8 bytes long. If less than 8 bytes are
+  // available there is no valid bitcode present. Likely only a bitcode marker
+  // was embedded.
+  if (IsEmpty() || _size < 8) {
+    return {};
+  }
+
+  std::vector<std::unique_ptr<EmbeddedFile>> files;
+  auto offsets = GetEmbeddedFileOffsets();
+  for (std::size_t i = 0; i < offsets.size() - 1; ++i) {
+    std::size_t begin = offsets[i];
+    std::size_t end = offsets[i + 1];
+    std::size_t size = end - begin;
+
+    char *buffer = static_cast<char *>(malloc(size));
+    memcpy(buffer, _data + begin, size);
+
+    auto embeddedFile = EmbeddedFileFactory::CreateEmbeddedFile(buffer, size);
     embeddedFile->SetCommands(_commands, EmbeddedFile::CommandSource::Clang);
     files.push_back(std::move(embeddedFile));
   }

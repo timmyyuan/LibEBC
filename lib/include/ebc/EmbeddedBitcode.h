@@ -12,6 +12,10 @@ class EmbeddedBitcode : public EmbeddedFile {
       : EmbeddedFile(std::move(file), EmbeddedFile::Type::Bitcode), _bitcodeType(bitcodeType) {}
   EmbeddedBitcode(std::string file)
       : EmbeddedFile(std::move(file), EmbeddedFile::Type::Bitcode), _bitcodeType(BitcodeType::Bitcode) {}
+  EmbeddedBitcode(char *buffer, size_t bufferSize, BitcodeType bitcodeType)
+      : EmbeddedFile(buffer, bufferSize, EmbeddedFile::Type::Bitcode), _bitcodeType(bitcodeType) {}
+  EmbeddedBitcode(char *buffer, size_t bufferSize)
+      : EmbeddedFile(buffer, bufferSize, EmbeddedFile::Type::Bitcode), _bitcodeType(BitcodeType::Bitcode) {}
   ~EmbeddedBitcode() = default;
 
   BitcodeType GetBitcodeType() {

@@ -23,6 +23,7 @@ extern "C" {
 #include <memory>
 #include <streambuf>
 #include <utility>
+#include <ebc/BitcodeArchive.h>
 
 using namespace ebc::util;
 
@@ -82,6 +83,42 @@ std::vector<std::unique_ptr<EmbeddedFile>> BitcodeArchive::GetEmbeddedFiles() co
 
     auto fileType = _metadata->GetFileType(path);
     auto embeddedFile = EmbeddedFileFactory::CreateEmbeddedFile(file, fileType);
+
+    if (!embeddedFile) continue;
+
+    // Add clang commands.
+    auto clangCommands = _metadata->GetClangCommands(path);
+    embeddedFile->SetCommands(clangCommands, EmbeddedFile::CommandSource::Clang);
+
+    // Add swift commands.
+    auto swiftCommands = _metadata->GetSwiftCommands(path);
+    embeddedFile->SetCommands(swiftCommands, EmbeddedFile::CommandSource::Swift);
+
+    // Add to list of bitcode files.
+    embeddedFiles.push_back(std::move(embeddedFile));
+  }
+
+  // Remove xar again.
+  std::remove(archive.c_str());
+
+  return embeddedFiles;
+}
+
+std::vector<std::unique_ptr<EmbeddedFile>> BitcodeArchive::GetRawEmbeddedFiles() const {
+  if (IsEmpty()) return {};
+
+  // Write xar to disk.
+  const std::string archive = WriteXarToFile();
+
+  auto buffers = xar::ExtractInMemory(archive);
+  auto embeddedFiles = std::vector<std::unique_ptr<EmbeddedFile>>();
+
+  for (auto &pair : buffers) {
+    auto path = pair.first;
+    auto buffer = pair.second;
+
+    auto fileType = _metadata->GetFileType(path);
+    auto embeddedFile = EmbeddedFileFactory::CreateEmbeddedFile(buffer.first, buffer.second, fileType);
 
     if (!embeddedFile) continue;
 

@@ -47,6 +47,7 @@ class BitcodeArchive : public BitcodeContainer {
   ///
   /// @return A vector of bitcode files.
   std::vector<std::unique_ptr<EmbeddedFile>> GetEmbeddedFiles() const override;
+  std::vector<std::unique_ptr<EmbeddedFile>> GetRawEmbeddedFiles() const override;
 
   static std::unique_ptr<BitcodeContainer> BitcodeArchiveFromFile(std::string path);
 
