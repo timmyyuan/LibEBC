@@ -38,5 +38,5 @@ set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g -O0 -fno-omit-fra
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
 
 add_subdirectory(lib)
-add_subdirectory(test)
-add_subdirectory(tool)
+#add_subdirectory(test)
+#add_subdirectory(tool)
