@@ -287,7 +287,7 @@ class BitcodeRetriever::Impl {
       if (sectName == ".llvmbc" || sectName == "__bitcode") {
         assert(!bitcodeContainer && "Multiple bitcode sections!");
         auto data = GetSectionData(*it);
-        bitcodeContainer = std::make_unique<BitcodeContainer>(data.first, data.second);
+        bitcodeContainer = llvm::make_unique<BitcodeContainer>(data.first, data.second);
       } else if (sectName == "__bundle") {
         assert(!bitcodeContainer && "Multiple bitcode sections!");
         auto data = GetSectionData(*it);
@@ -309,7 +309,7 @@ class BitcodeRetriever::Impl {
   std::string _objectPath;
 };
 
-BitcodeRetriever::BitcodeRetriever(std::string objectPath) : _impl(std::make_unique<Impl>(std::move(objectPath))) {}
+BitcodeRetriever::BitcodeRetriever(std::string objectPath) : _impl(llvm::make_unique<Impl>(std::move(objectPath))) {}
 BitcodeRetriever::~BitcodeRetriever() = default;
 
 std::vector<BitcodeRetriever::BitcodeInfo> BitcodeRetriever::GetBitcodeInfo() {

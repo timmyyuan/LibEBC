@@ -58,7 +58,7 @@ bool BitcodeArchive::IsArchive() const {
 }
 
 void BitcodeArchive::SetMetadata() noexcept {
-  _metadata = std::make_unique<BitcodeMetadata>(GetMetadataXml());
+  _metadata = llvm::make_unique<BitcodeMetadata>(GetMetadataXml());
 }
 
 std::string BitcodeArchive::WriteXarToFile() const {
