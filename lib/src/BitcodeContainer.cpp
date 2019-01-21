@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <streambuf>
-#include <ebc/BitcodeContainer.h>
+#include <string.h>
 
 namespace ebc {
 
