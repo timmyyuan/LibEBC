@@ -10,6 +10,8 @@
 #include "ebc/util/UUID.h"
 #include "ebc/util/Xar.h"
 
+#include "llvm/ADT/STLExtras.h"
+
 #ifdef HAVE_LIBXAR
 extern "C" {
 #include <xar/xar.h>
@@ -23,7 +25,6 @@ extern "C" {
 #include <memory>
 #include <streambuf>
 #include <utility>
-#include <ebc/BitcodeArchive.h>
 
 using namespace ebc::util;
 

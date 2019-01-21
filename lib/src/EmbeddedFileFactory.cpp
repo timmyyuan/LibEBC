@@ -10,8 +10,9 @@
 #include "ebc/util/MachO.h"
 #include "ebc/util/Xar.h"
 
+#include "llvm/ADT/STLExtras.h"
+
 #include <cassert>
-#include <ebc/EmbeddedFileFactory.h>
 
 namespace ebc {
 
