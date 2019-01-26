@@ -6,10 +6,12 @@ pkg_check_modules(LIBXML2 REQUIRED libxml-2.0 IMPORTED_TARGET)
 
 include_directories(${LIBXML2_INCLUDE_DIRS})
 
-# LLVM Dependency
-message(STATUS "LLVM Hint: ${LLVM_HINT}")
-find_package(LLVM REQUIRED CONFIG HINTS ${LLVM_HINT})
-message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+if (NOT TARGET LLVMCore)
+  # LLVM Dependency
+  message(STATUS "LLVM Hint: ${LLVM_HINT}")
+  find_package(LLVM REQUIRED CONFIG HINTS ${LLVM_HINT})
+  message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+endif()
 include_directories(${LLVM_INCLUDE_DIRS})
 
 # Explicitly select components to link against
