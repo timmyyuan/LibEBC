@@ -113,6 +113,15 @@ std::vector<std::unique_ptr<EmbeddedFile>> BitcodeContainer::GetRawEmbeddedFiles
     std::size_t end = offsets[i + 1];
     std::size_t size = end - begin;
 
+    /// cutting off zero bytes at the end
+    uint64_t tail(0);
+    uint32_t shortTail(0);
+    memcpy(&tail, ( (_data + end) - sizeof(tail)), sizeof(tail));
+    memcpy(&shortTail, ( (_data + end) - sizeof(tail) - sizeof(shortTail)), sizeof(shortTail));
+    if (tail == 0 && shortTail == 0) {
+      size -= sizeof(tail);
+    }
+
     char *buffer = static_cast<char *>(malloc(size));
     memcpy(buffer, _data + begin, size);
 
