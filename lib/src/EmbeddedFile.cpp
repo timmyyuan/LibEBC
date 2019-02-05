@@ -1,6 +1,7 @@
 #include "ebc/EmbeddedFile.h"
 
 #include <cstdio>
+#include <cstdlib>
 #include <utility>
 #include <ebc/EmbeddedFile.h>
 
