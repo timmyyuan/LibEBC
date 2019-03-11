@@ -48,13 +48,6 @@ configure_file (
   "${PROJECT_SOURCE_DIR}/lib/include/ebc/Config.h.in"
   "${PROJECT_BINARY_DIR}/ebc/Config.h")
 
-# UUID
-if(UNIX AND NOT APPLE)
-  set(UUID_LIBRARY "uuid")
-else()
-  set(ICONV_LIBRARY "iconv")
-endif()
-
 # LibEBC
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)

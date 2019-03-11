@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include <uuid/uuid.h>
+/* #include <uuid/uuid.h> */
 
 namespace ebc {
 namespace util {
@@ -17,10 +17,10 @@ std::string UuidToString(std::array<std::uint8_t, 16> uuid) {
 }
 
 std::array<std::uint8_t, 16> GenerateUUID() {
-  uuid_t uuid;
-  uuid_generate_random(uuid);
+  /* uuid_t uuid; */
+  /* uuid_generate_random(uuid); */
   std::array<std::uint8_t, 16> data;
-  std::copy(uuid, uuid + 16, data.begin());
+  /* std::copy(uuid, uuid + 16, data.begin()); */
   return data;
 }
 }  // namespace uuid
