@@ -105,22 +105,38 @@ std::vector<std::unique_ptr<EmbeddedFile>> BitcodeContainer::GetRawEmbeddedFiles
   if (IsEmpty() || _size < 8) {
     return {};
   }
+//  printf("\n");
 
   std::vector<std::unique_ptr<EmbeddedFile>> files;
   auto offsets = GetEmbeddedFileOffsets();
   for (std::size_t i = 0; i < offsets.size() - 1; ++i) {
     std::size_t begin = offsets[i];
     std::size_t end = offsets[i + 1];
+
+    std::size_t index = end - 1;
+    while (index >= begin) {
+      char value = _data[index];
+      if (value != 0) {
+        break;
+      }
+      index--;
+    }
+    /// Align by 4 bytes + 4 bytes padding
+    size_t newEnd = index + 1;
+    newEnd  = newEnd + 4 - (newEnd % 4) + 4;
+    end = std::min(end, newEnd);
     std::size_t size = end - begin;
 
     /// cutting off zero bytes at the end
-    uint64_t tail(0);
-    uint32_t shortTail(0);
-    memcpy(&tail, ( (_data + end) - sizeof(tail)), sizeof(tail));
-    memcpy(&shortTail, ( (_data + end) - sizeof(tail) - sizeof(shortTail)), sizeof(shortTail));
-    if (tail == 0 && shortTail == 0) {
-      size -= sizeof(tail);
-    }
+//    uint64_t tail(0);
+//    uint32_t shortTail(0);
+//    memcpy(&tail, ( (_data + end) - sizeof(tail)), sizeof(tail));
+//    memcpy(&shortTail, ( (_data + end) - sizeof(tail) - sizeof(shortTail)), sizeof(shortTail));
+//    if (tail == 0 && shortTail == 0) {
+//      size -= sizeof(tail);
+//    }
+//
+//    printf("[%zu, %zu] = %zu\n", begin, end, size);
 
     char *buffer = static_cast<char *>(malloc(size));
     memcpy(buffer, _data + begin, size);
