@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.7.0)
 include(CheckLibraryExists)
 
 # LibXml2 Dependency
@@ -14,10 +15,16 @@ if (NOT TARGET LLVMCore)
 endif()
 include_directories(${LLVM_INCLUDE_DIRS})
 
-# Explicitly select components to link against
-llvm_map_components_to_libnames(LLVM_LINK_LIBRARIES
-  support
-  object)
+if ("LLVM" IN_LIST LLVM_AVAILABLE_LIBS)
+  set (EBC_LLVM_LIBRARIES
+    LLVM
+  )
+else()
+  set (EBC_LLVM_LIBRARIES
+    LLVMSupport
+    LLVMObject
+  )
+endif()
 
 # LLVM compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fno-rtti -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS")
@@ -59,7 +66,7 @@ target_link_libraries(ebc
   ${UUID_LIBRARY}
   ${ICONV_LIBRARY}
   ${XAR_LIBRARY}
-  ${LLVM_LINK_LIBRARIES}
+  ${EBC_LLVM_LIBRARIES}
   ${LIBXML2_STATIC_LDFLAGS})
 
 target_include_directories(ebc PRIVATE  ${PROJECT_BINARY_DIR})
