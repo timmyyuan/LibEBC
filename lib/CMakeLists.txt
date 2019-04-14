@@ -63,8 +63,7 @@ target_link_libraries(ebc
   ${ICONV_LIBRARY}
   ${XAR_LIBRARY}
   ${LLVM_LINK_LIBRARIES}
-  ${LIBXML2_LIBRARIES}
-  ${PC_LIBXML_STATIC_LIBRARIES})
+  ${LIBXML2_STATIC_LDFLAGS})
 
 target_include_directories(ebc PRIVATE  ${PROJECT_BINARY_DIR})
 target_include_directories(ebc PUBLIC ${HEADER_DIR})
