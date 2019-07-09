@@ -33,8 +33,15 @@ else(SANITIZE)
   message(STATUS "Building without sanitizers")
 endif(SANITIZE)
 
+option(EBC_BUILD_32_BITS "Enable 32 bits build" OFF)
+
+if (EBC_BUILD_32_BITS)
+  set (EBC_32_BIT_FLAGS "-m32")
+endif()
+
 # Compiler flags
-set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g -O0 -fno-omit-frame-pointer")
+set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG} ${EBC_32_BIT_FLAGS} -Wall -g -O0 -fno-omit-frame-pointer")
+
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall")
 
 add_subdirectory(lib)
