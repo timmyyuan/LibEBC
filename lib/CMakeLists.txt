@@ -5,7 +5,7 @@ include(CheckLibraryExists)
 find_package(PkgConfig)
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0 IMPORTED_TARGET)
 
-include_directories(${LIBXML2_INCLUDE_DIRS})
+include_directories(${CMAKE_OSX_SYSROOT}${LIBXML2_INCLUDE_DIRS})
 
 if (NOT TARGET LLVMCore)
   # LLVM Dependency
