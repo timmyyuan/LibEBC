@@ -3,9 +3,9 @@ include(CheckLibraryExists)
 
 # LibXml2 Dependency
 find_package(PkgConfig)
-pkg_check_modules(LIBXML2 REQUIRED libxml-2.0 IMPORTED_TARGET)
+#pkg_check_modules(LIBXML2 libxml-2.0 IMPORTED_TARGET)
 
-include_directories(${LIBXML2_INCLUDE_DIRS})
+include_directories(${CMAKE_OSX_SYSROOT}/usr/include/libxml2)
 
 if (NOT TARGET LLVMCore)
   # LLVM Dependency
@@ -67,7 +67,7 @@ target_link_libraries(ebc
   ${ICONV_LIBRARY}
   ${XAR_LIBRARY}
   ${EBC_LLVM_LIBRARIES}
-  ${LIBXML2_STATIC_LDFLAGS})
+  xml2)
 
 target_include_directories(ebc PRIVATE  ${PROJECT_BINARY_DIR})
 target_include_directories(ebc PUBLIC ${HEADER_DIR})
