@@ -247,8 +247,17 @@ class BitcodeRetriever::Impl {
   ///
   /// @return A pair with the data and the size of the data.
   static std::pair<const char *, std::size_t> GetSectionData(const llvm::object::SectionRef &section) {
+#if LLVM_VERSION_MAJOR >= 9
+    Expected<StringRef> bytesStrExp = section.getContents();
+    if (!bytesStrExp) {
+      return {nullptr, 0};
+    }
+    StringRef bytesStr = bytesStrExp.get();
+#else
     StringRef bytesStr;
     section.getContents(bytesStr);
+#endif
+
     const char *sect = reinterpret_cast<const char *>(bytesStr.data());
     return {sect, bytesStr.size()};
   }
