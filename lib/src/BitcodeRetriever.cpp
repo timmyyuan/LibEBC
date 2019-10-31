@@ -81,12 +81,14 @@ class BitcodeRetriever::Impl {
   std::vector<BitcodeInfo> GetBitcodeInfo() {
     auto binaryOrErr = createBinary(_objectPath);
     if (!binaryOrErr) {
-      throw ToEbcError(binaryOrErr.takeError());
+      llvm::logAllUnhandledErrors(binaryOrErr.takeError(), llvm::errs(), "");
+      return std::vector<BitcodeInfo>();
     }
 
     auto bitcodeContainers = GetBitcodeInfo(*binaryOrErr->getBinary());
     if (!bitcodeContainers) {
-      throw ToEbcError(bitcodeContainers.takeError());
+      llvm::logAllUnhandledErrors(bitcodeContainers.takeError(), llvm::errs(), "");
+      return std::vector<BitcodeInfo>();
     }
 
     return std::move(*bitcodeContainers);
