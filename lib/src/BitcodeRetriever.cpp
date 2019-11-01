@@ -61,14 +61,6 @@ void InternalEbcError::log(llvm::raw_ostream &OS) const {
 
 char InternalEbcError::ID = 0;
 
-/// Convert an LLVM error object to an EbcError. This works both for LLVM's
-/// internal errors as well as for our custom InternalEbcError.
-static EbcError ToEbcError(llvm::Error &&e) {
-  std::string msg;
-  handleAllErrors(std::move(e), [&msg](llvm::ErrorInfoBase &eib) { msg = eib.message(); });
-  return EbcError(msg);
-}
-
 class BitcodeRetriever::Impl {
  public:
   Impl(std::string objectPath) : _objectPath(std::move(objectPath)) {}
