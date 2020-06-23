@@ -45,7 +45,7 @@ std::unique_ptr<EmbeddedFile> EmbeddedFileFactory::CreateEmbeddedFile(std::strin
     return std::unique_ptr<EmbeddedFile>(new EmbeddedObject(std::move(file)));
   }
 
-  return llvm::make_unique<EmbeddedFile>(file);
+  return std::make_unique<EmbeddedFile>(file);
 }
 
 std::unique_ptr<EmbeddedFile> EmbeddedFileFactory::CreateEmbeddedFile(std::string file, std::string fileType) {
@@ -69,14 +69,14 @@ std::unique_ptr<EmbeddedFile> EmbeddedFileFactory::CreateEmbeddedFile(std::strin
     case EmbeddedFile::Type::Exports:
       return std::unique_ptr<EmbeddedFile>(new EmbeddedExports(std::move(file)));
     case EmbeddedFile::Type::File:
-      return llvm::make_unique<EmbeddedFile>(file);
+      return std::make_unique<EmbeddedFile>(file);
     case EmbeddedFile::Type::Object:
       return std::unique_ptr<EmbeddedFile>(new EmbeddedObject(std::move(file)));
     case EmbeddedFile::Type::Xar:
       return std::unique_ptr<EmbeddedFile>(new EmbeddedXar(std::move(file)));
   }
 
-  return llvm::make_unique<EmbeddedFile>(file);
+  return std::make_unique<EmbeddedFile>(file);
 }
 
 std::unique_ptr<EmbeddedFile> EmbeddedFileFactory::CreateEmbeddedFile(char *buffer, size_t bufferSize) {
