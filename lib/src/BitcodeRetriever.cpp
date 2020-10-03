@@ -284,11 +284,16 @@ class BitcodeRetriever::Impl {
     std::vector<std::string> commands;
 
     for (auto it = begin; it != end; ++it) {
+#if LLVM_VERSION_MAJOR > 9
       Expected<StringRef> sectNameExpected = it->getName();
       if (!sectNameExpected) {
         abort();
       }
       StringRef sectName = sectNameExpected.get();
+#else
+      StringRef sectName;
+      it->getName(sectName);
+#endif
 
       if (sectName == ".llvmbc" || sectName == "__bitcode") {
         assert(!bitcodeContainer && "Multiple bitcode sections!");
