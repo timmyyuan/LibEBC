@@ -200,14 +200,14 @@ class BitcodeRetriever::Impl {
   /// @return The bitcode container.
   llvm::Expected<BitcodeInfo> GetBitcodeInfoFromMachO(const llvm::object::MachOObjectFile *objectFile) const {
     // For MachO return the correct arch tripple.
-    const std::string arch = objectFile->getArchTriple(nullptr).getArchName();
+    const std::string arch = objectFile->getArchTriple(nullptr).getArchName().str();
 
     auto bitcodeContainer = GetBitcodeInfo(objectFile->section_begin(), objectFile->section_end());
 
     if (bitcodeContainer != nullptr) {
       // Set binary metadata
-      bitcodeContainer->GetBinaryMetadata().SetFileName(GetFileName(objectFile->getFileName()));
-      bitcodeContainer->GetBinaryMetadata().SetFileFormatName(objectFile->getFileFormatName());
+      bitcodeContainer->GetBinaryMetadata().SetFileName(GetFileName(objectFile->getFileName().str()));
+      bitcodeContainer->GetBinaryMetadata().SetFileFormatName(objectFile->getFileFormatName().str());
       bitcodeContainer->GetBinaryMetadata().SetArch(arch);
       bitcodeContainer->GetBinaryMetadata().SetUuid(objectFile->getUuid().data());
     }
@@ -227,12 +227,12 @@ class BitcodeRetriever::Impl {
 
     if (bitcodeContainer != nullptr) {
       // Set binary metadata
-      bitcodeContainer->GetBinaryMetadata().SetFileName(GetFileName(objectFile->getFileName()));
-      bitcodeContainer->GetBinaryMetadata().SetFileFormatName(objectFile->getFileFormatName());
-      bitcodeContainer->GetBinaryMetadata().SetArch(arch);
+      bitcodeContainer->GetBinaryMetadata().SetFileName(GetFileName(objectFile->getFileName().str()));
+      bitcodeContainer->GetBinaryMetadata().SetFileFormatName(objectFile->getFileFormatName().str());
+      bitcodeContainer->GetBinaryMetadata().SetArch(arch.str());
     }
 
-    return BitcodeInfo(arch, std::move(bitcodeContainer));
+    return BitcodeInfo(arch.str(), std::move(bitcodeContainer));
   }
 
   /// Obtains data from a section.
