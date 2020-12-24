@@ -13,6 +13,9 @@
 #include <streambuf>
 #include <string.h>
 
+#include "llvm/ADT/SmallString.h"
+#include "llvm/Support/FileSystem.h"
+
 namespace ebc {
 
 BitcodeContainer::BitcodeContainer(const char *data, std::size_t size)

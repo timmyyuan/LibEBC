@@ -11,6 +11,8 @@
 #include "ebc/util/Xar.h"
 
 #include "llvm/ADT/STLExtras.h"
+#include "llvm/ADT/SmallString.h"
+#include "llvm/Support/FileSystem.h"
 
 #ifdef HAVE_LIBXAR
 extern "C" {
@@ -63,7 +65,11 @@ void BitcodeArchive::SetMetadata() noexcept {
 }
 
 std::string BitcodeArchive::WriteXarToFile() const {
-  const std::string fileName = GetPrefix() + util::uuid::UuidToString(util::uuid::GenerateUUID()) + ".xar";
+  llvm::Twine prefix("mull-ebc");
+  llvm::SmallString<128> resultPath;
+  llvm::sys::fs::createTemporaryFile(prefix, "xar", resultPath);
+  const std::string fileName = resultPath.str().str();
+
   auto data = GetData();
   bitcode::WriteToFile(data.first, data.second, fileName);
   return fileName;
@@ -153,7 +159,11 @@ std::string BitcodeArchive::GetMetadataXml() const noexcept {
   }
 
   const std::string xarFile = WriteXarToFile();
-  const std::string xmlFile = GetPrefix() + util::uuid::UuidToString(util::uuid::GenerateUUID()) + ".xml";
+
+  llvm::Twine prefix("mull-ebc");
+  llvm::SmallString<128> resultPath;
+  llvm::sys::fs::createTemporaryFile(prefix, "xml", resultPath);
+  const std::string xmlFile = resultPath.str().str();
 
   if (xar::WriteTOC(xarFile, xmlFile)) {
     // Read Metadata in memory.
