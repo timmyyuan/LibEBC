@@ -3,6 +3,7 @@ include(CheckLibraryExists)
 
 # LibXml2 Dependency
 find_package(PkgConfig)
+find_package(LibXml2 REQUIRED)
 pkg_check_modules(LIBXML2 REQUIRED libxml-2.0 IMPORTED_TARGET)
 
 include_directories(${LIBXML2_INCLUDE_DIRS})
