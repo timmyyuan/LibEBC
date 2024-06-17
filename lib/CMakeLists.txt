@@ -73,5 +73,5 @@ target_link_libraries(ebc
 target_include_directories(ebc PRIVATE  ${PROJECT_BINARY_DIR})
 target_include_directories(ebc PUBLIC ${HEADER_DIR})
 
-# Use C++14
-set_property(TARGET ebc PROPERTY CXX_STANDARD 14)
+# Use C++17
+set_property(TARGET ebc PROPERTY CXX_STANDARD 17)

@@ -8,4 +8,4 @@ configure_file (
 add_executable(ebcutil ${PROJECT_BINARY_DIR}/tool/ebcutil.cpp)
 target_link_libraries(ebcutil ebc tclap rang)
 
-set_property(TARGET ebcutil PROPERTY CXX_STANDARD 14)
+set_property(TARGET ebcutil PROPERTY CXX_STANDARD 17)
