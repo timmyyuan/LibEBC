@@ -11,6 +11,7 @@
 #include "llvm/Object/ELFObjectFile.h"
 #include "llvm/Object/MachO.h"
 #include "llvm/Object/MachOUniversal.h"
+#include "llvm/Object/Archive.h"
 #include "llvm/Support/Error.h"
 #include "llvm/Support/ErrorHandling.h"
 
