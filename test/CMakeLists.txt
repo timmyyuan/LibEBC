@@ -13,8 +13,8 @@ add_executable(ebctest ${SOURCE_FILES})
 target_link_libraries(ebctest ebc ${LIBXML2_LIBRARIES})
 target_include_directories(ebctest PRIVATE "catch")
 
-# Use C++14 for tests
-set_property(TARGET ebctest PROPERTY CXX_STANDARD 14)
+# Use C++17 for tests
+set_property(TARGET ebctest PROPERTY CXX_STANDARD 17)
 
 # Enable ctest
 enable_testing(true)
